@@ -25,7 +25,7 @@ export default function Login() {
           onClick={async () => {
             try {
               await loginUser({ username: text });
-              navigate("/home");
+              navigate("/game");
             } catch (error) {
               setError("Erreur de connexion, cet utilisateur n'existe pas");
             }

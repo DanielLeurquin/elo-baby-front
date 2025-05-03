@@ -25,7 +25,7 @@ export default function Register() {
           onClick={async () => {
             try {
               await registerUser({ username: text });
-              navigate("/home");
+              navigate("/game");
             } catch (error) {
               setError("Une erreur est survenue, cet utilisateur existe déjà");
             }
