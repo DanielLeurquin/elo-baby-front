@@ -233,7 +233,7 @@ const Game: React.FC = () => {
         </div>
         <p className="text-red-500 text-sm mt-4 maxSm:mt-24 maxSm:mb-4">{error}</p>
         <button 
-            className="bg-primary-500 text-white px-4 py-2 rounded-full hover:bg-primary-600 transition duration-300 mt-8 maxSm:mt-0"
+            className="bg-primary-500 text-white px-4 py-2 rounded-full hover:bg-primary-600 transition duration-300 mt-8 maxSm:mt-0 maxSm:mb-24"
             onClick={() => {
                 const error = checkValidForm(selectedGris1, selectedGris2, selectedNoir1, selectedNoir2, score1, score2);
                 console.log("Error: ", error);
@@ -256,9 +256,7 @@ const Game: React.FC = () => {
                     } catch (error) {   
                         setError("Une erreur est survenue lors de la création de la partie, veuillez réessayer.");
                     }
-                    
                 }
-
 
             }}
             >

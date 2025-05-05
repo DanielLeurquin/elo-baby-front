@@ -24,3 +24,15 @@ export function getUserGames(userId : number){
         }
       })
 }
+
+export function getAllGames(){
+    return api.get("/games")
+    .then((response) => {
+        if (response.status == 200){
+            return response.data;
+        }
+        else {
+            throw new Error("Failed to get games");
+        }
+      })
+}

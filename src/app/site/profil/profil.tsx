@@ -7,6 +7,7 @@ import { Game } from "../../model/Game";
 import { getUserGames } from "../../service/game.service";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { PlayerScore } from "../../model/PlayerScore";
+import { useNavigate } from "react-router-dom";
 
 
 export function Profil() {
@@ -14,6 +15,8 @@ export function Profil() {
     const [games , setGames] = React.useState<Game[]>([]);
 
     const [chart1, setChart1] = React.useState<any[]>([]);
+    
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -29,7 +32,12 @@ export function Profil() {
                 });
                 
                 setGames(games);
+                if(games.length === 0) {
+                    setChart1([]);
+                    return;
+                }
                 const firstValue = [{x: 0, y :games[0].playerScores.find((ps : PlayerScore) => ps.player.id === user.id)?.startElo}];
+                
                 const chartData1 = [...firstValue, ...games.map((game : Game) => {
                     const date = new Date(game.date).toLocaleDateString("fr-FR", {
                         year: "numeric",
@@ -75,6 +83,16 @@ export function Profil() {
                     width={350}
                 />
             </div>
+            <button 
+            className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300"
+            onClick={() => {
+                localStorage.removeItem("refreshToken");
+                navigate("/login");
+                window.location.reload();
+            }}
+            >
+            Se Deconnecter
+            </button>
 
         </div>
     </Layout>
