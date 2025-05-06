@@ -13,7 +13,7 @@ function MobileNav() {
   //get path 
   const path = window.location.pathname;
   const pathParts = path.split("/");
-  const lastPathPart = pathParts[pathParts.length - 1];
+  const lastPathPart = pathParts[1];
   
 
   const [activeTab, setActiveTab] = useState(lastPathPart);
@@ -44,8 +44,8 @@ function MobileNav() {
   return (
     <nav className="z-0 fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 bg-black text-white px-6 py-3 rounded-full flex justify-between items-center w-[90%] max-w-md shadow-lg">
       {navItems.map(({ key, icon }) => {
-        const isActive = activeTab === key;
-
+        const isActive = activeTab.split("/")[0] === key.split("/")[0];
+        console.log(activeTab)
         return (
           <button
             key={key}

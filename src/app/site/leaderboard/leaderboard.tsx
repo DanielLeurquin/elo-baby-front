@@ -63,7 +63,7 @@ export default function Leaderboard() {
                     <span className="text-gray-500">{index + 1}</span>
                   )}
                 </div>
-                <span className="font-medium text-gray-700">{user.username}</span>
+                <a href={"/profile/"+user.username} className="font-medium text-gray-700 hover:underline">{user.username}</a>
                 <span className="text-right text-indigo-700 font-bold">{user.elo}</span>
               </motion.div>
             ))}
