@@ -12,6 +12,10 @@ import { GameCreation } from "../../model/GameCreation";
 import { create } from "domain";
 import { createGame } from "../../service/game.service";
 import { get } from "http";
+import Modal from "../../component/modal/modal";
+import { GiQueenCrown } from 'react-icons/gi';
+import { Game } from "../../model/Game";
+import { PlayerScore } from "../../model/PlayerScore";
 
 interface UserInfoProps {
   name: string;
@@ -109,7 +113,7 @@ function buildCreateGameRequest(selectedGris1: User,
 }
 
 
-const Game: React.FC = () => {
+const GamePage: React.FC = () => {
     const vide = [{"id" : 0, "username" : "Vide", "elo" : 0, "role" : ""} as User]
 
     const [score1, setScore1] = React.useState(0);
@@ -125,6 +129,20 @@ const Game: React.FC = () => {
     const [error, setError] = React.useState<string>("");
 
     const [showSucess, setShowSuccess] = React.useState<boolean>(false);
+    const [showModal, setShowModal] = React.useState<boolean>(true);
+    const [gameSummary, setGameSummary] = React.useState<Game | null>(null)
+
+    const getGameWinner = (game: Game) => {
+        const grisScore = game.playerScores.filter(player => player.team === "GRIS")[0]?.score || 0;
+        const noirScore = game.playerScores.filter(player => player.team === "NOIR")[0]?.score || 0;
+        return grisScore > noirScore ? 'GRIS' : 'NOIR';
+    }
+
+    const getGameTeamScore = (game: Game, team: string) => {
+        const teamScore = game.playerScores.filter(player => player.team === team)[0]?.score || 0;
+        return teamScore;
+    }
+
 
     useEffect(() => {
         if(user !== null) {
@@ -163,20 +181,109 @@ const Game: React.FC = () => {
 
   return (
     <Layout>
-        <div className="flex justify-center items-center flex-col bg-white text-white p- relative">
+        <div className="flex justify-center items-center flex-col bg-white text-white relative">
         {/* User Info in Top-Right */}
         <div className=" absolute top-4 right-4 text-right border-2 border-black bg-white rounded-lg p-4 shadow-lg h-16 justify-center flex items-center flex-col">
             <p className="text-lg font-semibold text-black">{user?.username}</p>
             <p className="text-sm text-black">ELO: {user?.elo}</p>
         </div>
-        { (
-             
-            <h1 className={`text-green-500 mt-12 mb-16 text-5xl maxSm:text-4xl maxSm:mb-8 font-bold transition-opacity duration-1000 ease-out ${showSucess ? 'opacity-100' : 'opacity-0'}`}>
-                Partie enregistrée
-            </h1>
-        )}
+        
 
-        <div className="flex items-center justify-around h-full mb-4 w-72 maxSm:flex-col-reverse maxSm:mb-16">
+        {showModal && gameSummary ? (
+        <Modal title="" onClose={() => setShowModal(false)}>
+            <div className="text-center mb-6">
+            <h2 className="text-3xl font-extrabold text-gray-800 mb-4 maxSm:text-xl">Résumé de la partie</h2>
+            <div className="flex justify-center items-center text-green-600 text-2xl font-bold">
+                <GiQueenCrown className="text-yellow-400 w-10 h-10 mr-3 maxSm:w-7 maxSm:h-7" />
+                <span className="maxSm:text-base">{getGameWinner(gameSummary)} a gagné</span>
+            </div>
+            </div>
+
+            <div className="flex gap-8 mb-6 w-[90vh] maxSm:flex-col maxSm:w-full">
+            {/* Équipe GRIS */}
+            <div className="bg-gray-100 rounded-2xl p-6 shadow-md flex-1 w-full maxSm:p-4">
+                <h3 className="text-2xl font-bold text-gray-700 mb-3 maxSm:text-base">Équipe GRIS</h3>
+                <p className="text-xl font-semibold mb-4 maxSm:text-sm">
+                Score :{" "}
+                <span className="text-gray-900">
+                    {getGameTeamScore(gameSummary, "GRIS")}
+                </span>
+                </p>
+                <ul className="space-y-2">
+                {gameSummary.playerScores
+                    .filter((ps: PlayerScore) => ps.team === "GRIS")
+                    .map((p: PlayerScore, i) => {
+                    const eloChange = p.endElo - p.startElo;
+                    return (
+                        <li
+                        key={i}
+                        className="flex justify-between text-lg font-medium maxSm:text-sm"
+                        >
+                        <a href={"/profile/" + p.player.username}className="text-black hover:underline">{p.player.username} : </a>
+                        <div className="flex">
+                            <p className="text-black mr-2">{p.startElo}</p>
+                            <span
+                                
+                                className={`${
+                                eloChange >= 0 ? "text-green-600" : "text-red-500"
+                                }`}
+                            >
+                                {eloChange >= 0 ? `+${eloChange}` : eloChange} ELO
+                            </span>
+
+                        </div>
+                        
+                        </li>
+                    );
+                    })}
+                </ul>
+            </div>
+
+            {/* Équipe NOIR */}
+            <div className="bg-gray-800 rounded-2xl p-6 shadow-md flex-1 maxSm:p-4">
+                <h3 className="text-2xl font-bold text-white mb-3 maxSm:text-base">Équipe NOIR</h3>
+                <p className="text-xl text-white font-semibold mb-4 maxSm:text-sm">
+                Score :{" "}
+                <span className="text-white">
+                    {getGameTeamScore(gameSummary, "NOIR")}
+                </span>
+                </p>
+                <ul className="space-y-2">
+                {gameSummary.playerScores
+                    .filter((ps: PlayerScore) => ps.team === "NOIR")
+                    .map((p: PlayerScore, i) => {
+                    const eloChange = p.endElo - p.startElo;
+                    return (
+                        <li
+                        key={i}
+                        className="flex justify-between text-lg font-medium maxSm:text-sm"
+                        >
+                        <a href={"/profile/" + p.player.username}className="text-white hover:underline">{p.player.username} : </a>
+                        <div className="flex">
+                            <p className="text-white mr-2">{p.startElo}</p>
+                            <span
+                                
+                                className={`${
+                                eloChange >= 0 ? "text-green-600" : "text-red-500"
+                                }`}
+                            >
+                                {eloChange >= 0 ? `+${eloChange}` : eloChange} ELO
+                            </span>
+
+                        </div>
+                        
+                        </li>
+                    );
+                    })}
+                </ul>
+            </div>
+            </div>
+        </Modal>
+        ) : null}
+
+
+
+        <div className="flex items-center justify-around h-full mb-4 w-72 maxSm:flex-col-reverse maxSm:mb-16 mt-12">
             <div>
                 <p className="text-black">Equipe Grise</p>
                 <NumberInput
@@ -245,7 +352,12 @@ const Game: React.FC = () => {
                     const gameCreation = buildCreateGameRequest(selectedGris1, selectedGris2, selectedNoir1, selectedNoir2, score1, score2);
                     try {
                         createGame(gameCreation)
-                        setShowSuccess(true);
+                        .then((game) => {
+                            setGameSummary(game);
+                            setShowModal(true);
+                            setError("");
+                        })
+                        
                         setScore1(0);
                         setScore2(0);
                         setSelectedGris1(vide[0]);
@@ -268,4 +380,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default Game;
+export default GamePage;

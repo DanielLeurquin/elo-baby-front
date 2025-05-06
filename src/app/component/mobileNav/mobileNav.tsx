@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { MdHistory } from "react-icons/md";
 import { MdSportsSoccer } from "react-icons/md";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { IoIosMan } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import getUserSubject from "../../service/user.Service";
+import { User } from "../../model/User";
 
 function MobileNav() {
 
@@ -12,15 +14,30 @@ function MobileNav() {
   const path = window.location.pathname;
   const pathParts = path.split("/");
   const lastPathPart = pathParts[pathParts.length - 1];
+  
 
   const [activeTab, setActiveTab] = useState(lastPathPart);
+  const [navItems, setNavItems] = useState([
+      { key: "profile", icon: <IoIosMan  size={32}/>},
+      { key: "game", icon: <MdSportsSoccer size={32} /> },
+      { key: "leaderboard", icon: <MdOutlineLeaderboard  size={32}/> },
+      { key: "history", icon: <MdHistory size={32}/> },
+    ])
 
-  const navItems = [
-    { key: "profile", icon: <IoIosMan  size={32}/>},
-    { key: "game", icon: <MdSportsSoccer size={32} /> },
-    { key: "leaderboard", icon: <MdOutlineLeaderboard  size={32}/> },
-    { key: "history", icon: <MdHistory size={32}/> },
-  ];
+  useEffect(() =>{
+    getUserSubject().subscribe((user) => {
+        if(!user){
+          return;
+        }
+        setNavItems([
+          { key: "profile/"+user.username, icon: <IoIosMan  size={32}/>},
+          { key: "game", icon: <MdSportsSoccer size={32} /> },
+          { key: "leaderboard", icon: <MdOutlineLeaderboard  size={32}/> },
+          { key: "history", icon: <MdHistory size={32}/> },
+        ])
+    })
+  },[])
+
 
   const navigate = useNavigate();
 

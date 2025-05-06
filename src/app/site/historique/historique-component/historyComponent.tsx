@@ -29,7 +29,7 @@ const HistoryComponent: React.FC<HistoryComponentProps> = ({ game }) => {
 
     return (
       <div key={player.id} className="flex items-center justify-between py-1 px-3 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all">
-        <p className={`font-semibold ${textColor}`}>{player.player.username}</p>
+        <a href={"/profile/" + player.player.username} className={`font-semibold hover:underline ${textColor}`}>{player.player.username}</a>
         <div className="flex items-center gap-1">
           <p className={`${textColor}`}>{player.startElo}</p>
           <Icon className={`${diffColor} text-xl`} />

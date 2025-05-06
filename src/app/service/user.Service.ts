@@ -94,6 +94,20 @@ export function getAllUsers () {
     )
 }
 
+export function getUserByUsername(username : string){
+    return api.get("/users/" + username).then((response) => {
+        if (response.status == 200){
+            const user = response.data as User;
+            return user;
+        }
+        else {
+            throw new Error("Unable to get this user");
+        }
+      }
+    )
+
+}
+
 
 
 export default function getUserSubject() {
