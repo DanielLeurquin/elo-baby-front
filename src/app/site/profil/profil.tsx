@@ -79,7 +79,7 @@ export function Profil() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-tr from-blue-50 to-white flex flex-col items-center px-4 py-8 maxSm:h-[122vh]">
+      <div className="min-h-screen flex flex-col items-center px-4 py-8 maxSm:mb-24">
 
         {/* Logout Button */}
         <motion.button
