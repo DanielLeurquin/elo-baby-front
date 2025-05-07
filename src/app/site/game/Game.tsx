@@ -145,10 +145,7 @@ const GamePage: React.FC = () => {
 
 
     useEffect(() => {
-        if(user !== null) {
-            return
-        }
-        const userSub = getUserSubject().subscribe((user) => {
+        getUserSubject().subscribe((user) => {
             setUser(user);
             if(!user) {
                 return
