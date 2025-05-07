@@ -310,12 +310,12 @@ const GamePage: React.FC = () => {
         <div className="flex items-center justify-center h-full">
             <div className="relative w-54 mr-4">
                 <div className="absolute top-[-130px] left-[-192px] w-48 maxSm:w-32 maxSm:top-[126px] maxSm:left-[-13px]">
-                    <p className="text-black font-bold">Defense</p>
+                    <p className="text-black font-bold">Defense GRIS</p>
                     <SelectMenu users={userListValue} selected={selectedGris1} onChange={setSelectedGris1}/>
                 </div>
         
                 <div className="absolute top-[-19px] left-[-192px] w-48 maxSm:w-32 maxSm:top-[126px] maxSm:left-[151px]">
-                    <p className="text-black font-bold">Attaque</p>
+                    <p className="text-black font-bold">Attaque GRIS</p>
                     <SelectMenu users={userListValue} selected={selectedGris2} onChange={setSelectedGris2}/>
                 </div>
                 
@@ -323,12 +323,12 @@ const GamePage: React.FC = () => {
             <img src="./images/babyfoot.png" className="w-64 maxSm:-rotate-90 lg:rotate-0"></img> 
             <div className="relative w-full ml-4">
                 <div className="absolute top-[-96px] left-0 w-48 maxSm:w-32 maxSm:top-[-209px] maxSm:left-[-282px]">
-                    <p className="text-black font-bold">Attaque</p>
+                    <p className="text-black font-bold">Attaque NOIR</p>
                     <SelectMenu users={userListValue} selected={selectedNoir1} onChange={setSelectedNoir1}/>
                 </div>
         
                 <div className="absolute top-[14px] left-0 w-48  maxSm:w-32 maxSm:top-[-209px] maxSm:left-[-105px]">
-                    <p className="text-black font-bold">Defense</p>
+                    <p className="text-black font-bold">Defense NOIR</p>
                     <SelectMenu users={userListValue} selected={selectedNoir2} onChange={setSelectedNoir2}/>
                 </div>
                 
