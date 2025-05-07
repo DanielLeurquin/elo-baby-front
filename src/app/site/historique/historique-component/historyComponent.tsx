@@ -86,7 +86,7 @@ const HistoryComponent: React.FC<HistoryComponentProps> = ({ game, deleteable })
                   
         <TiDeleteOutline
           size={30}
-          className="text-red-500 absolute z-50 left-[98%] -top-[5%] maxSm:left-[95%]  maxSm:-top-[2%]"
+          className="text-red-500 absolute z-50 left-[98%] -top-[5%] maxSm:left-[95%]  maxSm:-top-[2%] cursor-pointer"
           onClick={() => {
             console.log(game)
             deleteGame(game.id).then(() => {
