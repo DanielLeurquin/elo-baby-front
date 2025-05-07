@@ -45,7 +45,7 @@ const MultiLineToggleChart: React.FC = () => {
 
           let dynamicData: DataPoint2 = { date: "06/05/2024" };
           for (const user of users) {
-            dynamicData[user.username] = 100;
+            dynamicData[user.username] = 500;
           }
           chartData.push(dynamicData);
 

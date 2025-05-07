@@ -178,7 +178,7 @@ const GamePage: React.FC = () => {
 
   return (
     <Layout>
-        <div className="flex justify-center items-center flex-col bg-white text-white relative">
+        <div className="flex justify-center items-center flex-col bg-white text-white relative maxSm:mb-24">
         {/* User Info in Top-Right */}
         <div className=" absolute top-4 right-4 text-right border-2 border-black bg-white rounded-lg p-4 shadow-lg h-16 justify-center flex items-center flex-col">
             <p className="text-lg font-semibold text-black">{user?.username}</p>
@@ -280,7 +280,7 @@ const GamePage: React.FC = () => {
 
 
 
-        <div className="flex items-center justify-around h-full mb-4 w-72 maxSm:flex-col-reverse maxSm:mb-16 mt-12">
+        <div className="flex items-center justify-around h-full mb-4 w-72 maxSm:flex-col-reverse maxSm:mb-24 mt-12">
             <div>
                 <p className="text-black">Equipe Grise</p>
                 <NumberInput

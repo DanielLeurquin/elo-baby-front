@@ -36,3 +36,17 @@ export function getAllGames(){
         }
       })
 }
+
+export function deleteGame(id : number){
+    return api.delete("/games/"+id)
+    .then((response) => {
+        console.log(response)
+        if (response.status == 204){
+            return response.data;
+        }
+        else {
+            throw new Error("Failed to get games");
+        }
+      })
+
+}

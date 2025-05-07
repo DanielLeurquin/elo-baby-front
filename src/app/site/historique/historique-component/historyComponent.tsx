@@ -3,13 +3,18 @@ import { Game } from '../../../model/Game';
 import { GiQueenCrown } from 'react-icons/gi';
 import { motion } from 'framer-motion';
 import { MdArrowDropUp, MdArrowDropDown } from 'react-icons/md';
+import { TiDeleteOutline } from "react-icons/ti";
+import { deleteGame } from '../../../service/game.service';
+import getUserSubject from '../../../service/user.Service';
+
 
 
 type HistoryComponentProps = {
   game: Game;
+  deleteable : boolean
 };
 
-const HistoryComponent: React.FC<HistoryComponentProps> = ({ game }) => {
+const HistoryComponent: React.FC<HistoryComponentProps> = ({ game, deleteable }) => {
   const [winner, setWinner] = useState<string>('GRIS');
 
   const getTeam = (team: string) => game.playerScores.filter(player => player.team === team);
@@ -74,9 +79,28 @@ const HistoryComponent: React.FC<HistoryComponentProps> = ({ game }) => {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-4">
+      
       <div className="relative flex flex-row maxSm:flex-col justify-between items-center gap-6 border border-gray-300 rounded-3xl bg-gradient-to-br from-white to-gray-50 p-6 shadow-xl flex-1 items-stretch mt-8">
+      {deleteable && (
+                
+                  
+        <TiDeleteOutline
+          size={30}
+          className="text-red-500 absolute z-50 left-[98%] -top-[5%] maxSm:left-[95%]  maxSm:-top-[2%]"
+          onClick={() => {
+            console.log(game)
+            deleteGame(game.id).then(() => {
+              getUserSubject().next(getUserSubject().value)
+            } 
+            )
+          }}
+        >
+        </TiDeleteOutline>
+      
+      )}
         <div className="absolute -top-[15px] maxSm:-top-[38px] left-1/2 -translate-x-1/2 bg-white text-gray-500 px-3 py-1 rounded-full text-sm shadow-md border">
             {new Date(game.date).toLocaleDateString()}
+            
         </div>
         
         {/* Left Team */}
